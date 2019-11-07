@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.bolsadeideas.springboot.backend.apirest</groupId>
-	<artifactId>spring-boot-backend-apirest</artifactId>
+	<groupId>mx.com.admin.reclutamiento.backend.admin</groupId>
+	<artifactId>backend-admin-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-boot-backend-apirest</name>
-	<description>Demo project for Spring Boot</description>
+	<name>backend-admin-rest</name>
+	<description>backend</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
