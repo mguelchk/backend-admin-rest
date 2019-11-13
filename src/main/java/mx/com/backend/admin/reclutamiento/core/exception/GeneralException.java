@@ -2,7 +2,7 @@ package mx.com.backend.admin.reclutamiento.core.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GeneralException extends RuntimeException {
+public class GeneralException extends Exception {
 	
 	private static final long serialVersionUID = -8979878989988989898L;
 	private final static Logger log = LoggerFactory.getLogger(GeneralException.class);
