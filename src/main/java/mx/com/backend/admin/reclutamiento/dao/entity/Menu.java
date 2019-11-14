@@ -21,7 +21,7 @@ public class Menu implements Serializable {
 
 	private Long idMenuPadre;
 
-	private List<Menu> menus;
+	private List<Menu> subMenus;
 
 	public Long getIdMenu() {
 		return idMenu;
@@ -79,12 +79,12 @@ public class Menu implements Serializable {
 		this.idMenuPadre = idMenuPadre;
 	}
 
-	public List<Menu> getMenus() {
-		return menus;
+	public List<Menu> getSubMenus() {
+		return subMenus;
 	}
 
-	public void setMenus(List<Menu> menus) {
-		this.menus = menus;
+	public void setSubMenus(List<Menu> subMenus) {
+		this.subMenus = subMenus;
 	}
 
 }

@@ -96,7 +96,7 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 		
 		for (Menu menuPadre : menusPadre) {
 			
-			menuPadre.setMenus(obtenerMenusHijos(menusHijo,menuPadre.getIdMenu()));
+			menuPadre.setSubMenus(obtenerMenusHijos(menusHijo,menuPadre.getIdMenu()));
 			
 		}
 		return menusPadre;
@@ -108,7 +108,7 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 			for (Menu menu : menusHijo) {
 				if(menu.getIdMenuPadre().equals(idMenuPadre)){
 					listArbolMenu.add(menu);
-					menu.setMenus(obtenerMenusHijos(menusHijo, menu.getIdMenu()));
+					menu.setSubMenus(obtenerMenusHijos(menusHijo, menu.getIdMenu()));
 				}
 			}
 		}
