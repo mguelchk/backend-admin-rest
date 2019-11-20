@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import mx.com.backend.admin.reclutamiento.dao.entity.Rol;
-import mx.com.backend.admin.reclutamiento.dao.entity.Usuario;
+import mx.com.backend.admin.reclutamiento.models.Rol;
+import mx.com.backend.admin.reclutamiento.models.Usuario;
 
 @Service
 public class RolDao implements IRolDao {

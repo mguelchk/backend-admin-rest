@@ -1,4 +1,4 @@
-package mx.com.backend.admin.reclutamiento.dao.entity;
+package mx.com.backend.admin.reclutamiento.models;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +17,8 @@ public class Usuario  implements Serializable {
 	private String nombre;
 
 	private String email;
+	
+	private String telefono;
 
 	private Boolean activo;
 
@@ -62,6 +64,15 @@ public class Usuario  implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	public Boolean getActivo() {

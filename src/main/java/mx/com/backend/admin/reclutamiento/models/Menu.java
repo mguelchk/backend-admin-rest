@@ -1,4 +1,4 @@
-package mx.com.backend.admin.reclutamiento.dao.entity;
+package mx.com.backend.admin.reclutamiento.models;
 
 import java.io.Serializable;
 import java.util.List;

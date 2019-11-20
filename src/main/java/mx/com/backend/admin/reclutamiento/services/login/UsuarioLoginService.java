@@ -1,4 +1,4 @@
-package mx.com.backend.admin.reclutamiento.services;
+package mx.com.backend.admin.reclutamiento.services.login;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +16,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.backend.admin.reclutamiento.dao.entity.Menu;
-import mx.com.backend.admin.reclutamiento.dao.entity.Rol;
-import mx.com.backend.admin.reclutamiento.dao.entity.Usuario;
 import mx.com.backend.admin.reclutamiento.dao.menu.IMenuDao;
 import mx.com.backend.admin.reclutamiento.dao.rol.IRolDao;
 import mx.com.backend.admin.reclutamiento.dao.usuario.IUsuarioDao;
+import mx.com.backend.admin.reclutamiento.models.Menu;
+import mx.com.backend.admin.reclutamiento.models.Rol;
+import mx.com.backend.admin.reclutamiento.models.Usuario;
+import mx.com.backend.admin.reclutamiento.services.login.impl.IUsuarioLoginService;
 
 @Service
-public class UsuarioService implements IUsuarioService, UserDetailsService {
+public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsService {
 
-	private Logger logger = LoggerFactory.getLogger(UsuarioService.class);
+	private Logger logger = LoggerFactory.getLogger(UsuarioLoginService.class);
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -39,14 +40,14 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
 
-		Usuario usuario = usuarioDao.findByUsername(username);
+		Usuario usuario = usuarioDao.buscarUsuarioPorCorreo(correo);
 
 		if (usuario == null) {
-			logger.error("Error en el login: no existe el usuario '" + username + "' en el sistema!");
+			logger.error("Error en el login: no existe el usuario '" + correo + "' en el sistema!");
 			throw new UsernameNotFoundException(
-					"Error en el login: no existe el usuario '" + username + "' en el sistema!");
+					"Error en el login: no existe el usuario '" + correo + "' en el sistema!");
 		}
 
 		usuario.setRoles(rolDao.obtenerRolesPorUsuario(usuario));
@@ -54,15 +55,15 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 				.map(role -> new SimpleGrantedAuthority(role.getNombre()))
 				.peek(authority -> logger.info("Role: " + authority.getAuthority())).collect(Collectors.toList());
 
-		return new User(usuario.getNombreUsuario(), usuario.getPassword(), usuario.getActivo(), true, true, true,
+		return new User(usuario.getEmail(), usuario.getPassword(), usuario.getActivo(), true, true, true,
 				authorities);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Usuario findByUsername(String username) {
+	public Usuario buscarUsuarioPorCorreo(String username) {
 		Usuario usuario  =
-				usuarioDao.findByUsername(username);
+				usuarioDao.buscarUsuarioPorCorreo(username);
 		usuario.setRoles(obtenerRolesPorUsuario(usuario));
 		return usuario;
 	}

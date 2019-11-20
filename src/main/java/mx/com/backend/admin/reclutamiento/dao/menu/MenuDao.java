@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import mx.com.backend.admin.reclutamiento.dao.entity.Menu;
-import mx.com.backend.admin.reclutamiento.dao.entity.Rol;
-import mx.com.backend.admin.reclutamiento.services.UsuarioService;
+import mx.com.backend.admin.reclutamiento.models.Menu;
+import mx.com.backend.admin.reclutamiento.models.Rol;
+import mx.com.backend.admin.reclutamiento.services.login.UsuarioLoginService;
 
 @Service
 public class MenuDao implements IMenuDao {
-	private Logger logger = LoggerFactory.getLogger(UsuarioService.class);
+	private Logger logger = LoggerFactory.getLogger(UsuarioLoginService.class);
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
