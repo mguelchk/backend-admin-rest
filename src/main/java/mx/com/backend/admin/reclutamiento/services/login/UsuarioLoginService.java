@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import mx.com.backend.admin.reclutamiento.core.exception.BussinesException;
+import mx.com.backend.admin.reclutamiento.core.exception.DaoDataAccesException;
 import mx.com.backend.admin.reclutamiento.dao.menu.IMenuDao;
 import mx.com.backend.admin.reclutamiento.dao.rol.IRolDao;
 import mx.com.backend.admin.reclutamiento.dao.usuario.IUsuarioDao;
@@ -42,33 +44,43 @@ public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsSer
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
 
-		Usuario usuario = usuarioDao.buscarUsuarioPorCorreo(correo);
+		Usuario usuario;
+		try {
+			usuario = usuarioDao.buscarUsuarioPorCorreo(correo);
+		} catch (DaoDataAccesException e) {
+
+			throw new UsernameNotFoundException("Error inesperado", e);
+		}
 
 		if (usuario == null) {
-			logger.error("Error en el login: no existe el usuario '" + correo + "' en el sistema!");
+			logger.error("Error en el login: no existe el correo '" + correo + "' en el sistema!");
 			throw new UsernameNotFoundException(
 					"Error en el login: no existe el usuario '" + correo + "' en el sistema!");
 		}
 
 		usuario.setRoles(rolDao.obtenerRolesPorUsuario(usuario));
+
 		List<GrantedAuthority> authorities = usuario.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getNombre()))
 				.peek(authority -> logger.info("Role: " + authority.getAuthority())).collect(Collectors.toList());
 
-		return new User(usuario.getEmail(), usuario.getPassword(), usuario.getActivo(), true, true, true,
-				authorities);
+		return new User(usuario.getEmail(), usuario.getPassword(), usuario.getActivo(), true, true, true, authorities);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public Usuario buscarUsuarioPorCorreo(String username) {
-		Usuario usuario  =
-				usuarioDao.buscarUsuarioPorCorreo(username);
-		usuario.setRoles(obtenerRolesPorUsuario(usuario));
+	public Usuario buscarUsuarioPorCorreo(String username) throws BussinesException {
+		Usuario usuario;
+		try {
+			usuario = usuarioDao.buscarUsuarioPorCorreo(username);
+			usuario.setRoles(obtenerRolesPorUsuario(usuario));
+		} catch (DaoDataAccesException e) {
+			throw new BussinesException(e);
+		}
+
 		return usuario;
 	}
 
-	private List<Rol> obtenerRolesPorUsuario(Usuario usuario) {
+	private List<Rol> obtenerRolesPorUsuario(Usuario usuario) throws DaoDataAccesException {
 		List<Rol> roles = rolDao.obtenerRolesPorUsuario(usuario);
 		for (Rol rol : roles) {
 			rol.setMenus(obtenerMenusPorRol(rol));
@@ -76,7 +88,7 @@ public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsSer
 		return roles;
 	}
 
-	private List<Menu> obtenerMenusPorRol(Rol rol) {
+	private List<Menu> obtenerMenusPorRol(Rol rol) throws DaoDataAccesException {
 
 		List<Menu> menus = menuDao.obtenerMenusPorRol(rol);
 
@@ -94,20 +106,20 @@ public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsSer
 	}
 
 	private List<Menu> menus(List<Menu> menusPadre, List<Menu> menusHijo) {
-		
+
 		for (Menu menuPadre : menusPadre) {
-			
-			menuPadre.setSubMenus(obtenerMenusHijos(menusHijo,menuPadre.getIdMenu()));
-			
+
+			menuPadre.setSubMenus(obtenerMenusHijos(menusHijo, menuPadre.getIdMenu()));
+
 		}
 		return menusPadre;
 	}
 
 	private List<Menu> obtenerMenusHijos(List<Menu> menusHijo, Long idMenuPadre) {
 		List<Menu> listArbolMenu = new ArrayList<>();
-		if(menusHijo != null ) {
+		if (menusHijo != null) {
 			for (Menu menu : menusHijo) {
-				if(menu.getIdMenuPadre().equals(idMenuPadre)){
+				if (menu.getIdMenuPadre().equals(idMenuPadre)) {
 					listArbolMenu.add(menu);
 					menu.setSubMenus(obtenerMenusHijos(menusHijo, menu.getIdMenu()));
 				}
@@ -115,7 +127,5 @@ public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsSer
 		}
 		return listArbolMenu;
 	}
-
-	
 
 }

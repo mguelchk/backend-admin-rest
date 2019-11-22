@@ -1,10 +1,10 @@
 package mx.com.backend.admin.reclutamiento.services.mail.impl;
 
-import java.io.IOException;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,21 +17,32 @@ import mx.com.backend.admin.reclutamiento.services.mail.IEnvioEmail;
 @Service
 public class EnvioEmail implements IEnvioEmail {
 
+	private final static Logger log = LoggerFactory.getLogger(EnvioEmail.class);
+
 	@Autowired
 	private JavaMailSender mailSender;
 
 	@Override
-	public void envioEmail(EnvioEmailBeans envioEmailBeans) throws MessagingException, IOException {
+	@Async
+	public void envioEmail(EnvioEmailBeans envioEmailBeans) {
 
-		MimeMessage msg = mailSender.createMimeMessage();
+		try {
 
-		// true = multipart message
-		MimeMessageHelper email = new MimeMessageHelper(msg, true);
-		email.setTo(envioEmailBeans.getEmail());
-		email.setSubject("bienvenido");
-		email.setText(envioEmailBeans.getBodyEmail(),true);
+			MimeMessage msg = mailSender.createMimeMessage();
 
-		mailSender.send(msg);
+			MimeMessageHelper email = new MimeMessageHelper(msg, true);
+
+			email.setTo(envioEmailBeans.getEmail());
+			email.setSubject(envioEmailBeans.getSubjetc());
+			email.setText(envioEmailBeans.getBodyEmail(), true);
+
+			mailSender.send(msg);
+
+		} catch (MessagingException e) {
+
+			log.error("..:: ERROR AL ENVIAR CORREO ELECTRONICO ::.." + envioEmailBeans.getEmail(), e);
+
+		}
 
 	}
 

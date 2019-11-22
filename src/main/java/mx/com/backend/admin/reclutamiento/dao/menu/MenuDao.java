@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import mx.com.backend.admin.reclutamiento.core.exception.DaoDataAccesException;
 import mx.com.backend.admin.reclutamiento.models.Menu;
 import mx.com.backend.admin.reclutamiento.models.Rol;
 import mx.com.backend.admin.reclutamiento.services.login.UsuarioLoginService;
 
 @Service
 public class MenuDao implements IMenuDao {
-	private Logger logger = LoggerFactory.getLogger(UsuarioLoginService.class);
+	
+	private Logger logger = LoggerFactory.getLogger(MenuDao.class);
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -23,7 +25,7 @@ public class MenuDao implements IMenuDao {
 	
 
 	@Override
-	public List<Menu> obtenerMenusPorRol(Rol rol) {
+	public List<Menu> obtenerMenusPorRol(Rol rol) throws DaoDataAccesException {
 		
 		try {
 			List<Menu> menus = jdbcTemplate.query(
@@ -47,16 +49,15 @@ public class MenuDao implements IMenuDao {
 						menu.setUrl(rs.getString("url"));
 						menu.setClase(rs.getString("clase"));
 						menu.setIcono(rs.getString("icono"));
-						menu.setActivo(rs.getInt("activo")== 1);
-						menu.setIdMenuPadre(rs.getLong("id_menu_padre")==0?null:rs.getLong("id_menu_padre"));
+						menu.setActivo(rs.getBoolean("activo"));
+						menu.setIdMenuPadre(rs.getLong("id_menu_padre")== 0 ? null:rs.getLong("id_menu_padre"));
 						return menu;
 					});
 
 			return menus;
 		} catch (Exception e) {
-			logger.info(e.getMessage());
-			logger.info("SWS",e.getCause());
-			return null;
+			logger.error("..:: ERROR CAPA DAO ::.. [METODO: obtenerMenusPorRol] " + e.getMessage(), e);
+			throw new DaoDataAccesException(e);
 		}
 		
 	}

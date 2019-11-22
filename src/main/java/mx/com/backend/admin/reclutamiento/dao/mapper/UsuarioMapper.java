@@ -19,7 +19,8 @@ public class UsuarioMapper implements RowMapper<Usuario> {
 		use.setNombre(rs.getString("usuario"));
 		use.setNombreUsuario(rs.getString("usuario"));
 		use.setEmail(rs.getString("correo"));
-		use.setActivo(rs.getInt("active") == 1);
+		use.setActivo(rs.getBoolean("active"));
+		use.setRecover(rs.getBoolean("recover"));
 
 		return use;
 	}

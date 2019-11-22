@@ -44,13 +44,13 @@ public class CustomResponse<R> implements Serializable {
 		this.message = message;
 	}
 
-	public void error(String message, Exception exception, Object... params) {
+	public void error(String message, Exception exception) {
 		this.ok = false;
 		this.response = null;
 		if ((exception instanceof BussinesException)) {
-			log.warn("Error de negocio--> Detalle {} ", exception.getMessage());
+			log.warn("Error de negocio--> Detalle ", exception.getMessage());
 		} else {
-			log.error("Error no controlado--> Detalle {} -- Error {} ", exception.getMessage(), exception);
+			log.error("Error no controlado--> Detalle -- Error {} ", exception.getMessage(), exception);
 		}
 		this.message = message;
 	}

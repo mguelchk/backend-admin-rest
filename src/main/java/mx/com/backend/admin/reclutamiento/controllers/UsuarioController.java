@@ -26,14 +26,42 @@ public class UsuarioController {
 
 	@PostMapping("/usuario")
 	public CustomResponse<Usuario> create(@RequestBody Usuario uuario) {
-		
-		CustomResponse<Usuario> resp = new CustomResponse<>(); 
-		
+
+		CustomResponse<Usuario> resp = new CustomResponse<>();
+
 		try {
 			Usuario iuser = usuarioService.crearUsuario(uuario);
-			resp.success(iuser, "se creo satisfactorio");
-		} catch(BussinesException e) {
-			resp.error(e.getMessage(), e, null);
+			resp.success(iuser, "Usuario creado satisfactoriamente");
+		} catch (BussinesException e) {
+			resp.error(e.getMessage(), e);
+		}
+		return resp;
+	}
+
+	@PostMapping("/recuperar")
+	public CustomResponse<Usuario> recuperarPassword(@RequestBody Usuario uuario) {
+
+		CustomResponse<Usuario> resp = new CustomResponse<>();
+
+		try {
+			Usuario iuser = usuarioService.reestablecerContrasenia(uuario);
+			resp.success(iuser, "Usuario creado satisfactoriamente");
+		} catch (BussinesException e) {
+			resp.error(e.getMessage(), e);
+		}
+		return resp;
+	}
+	
+	@PostMapping("/actualizar")
+	public CustomResponse<Usuario> actualizarPassword(@RequestBody Usuario uuario) {
+
+		CustomResponse<Usuario> resp = new CustomResponse<>();
+
+		try {
+			Usuario iuser = usuarioService.actualizarPassword(uuario);
+			resp.success(iuser, "Se actualizo su contraseña correctamente satisfactoriamente");
+		} catch (BussinesException e) {
+			resp.error(e.getMessage(), e);
 		}
 		return resp;
 	}

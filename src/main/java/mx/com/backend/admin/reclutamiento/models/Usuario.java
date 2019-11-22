@@ -3,9 +3,8 @@ package mx.com.backend.admin.reclutamiento.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class Usuario  implements Serializable {
+public class Usuario implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 
 	private Long idUsuario;
@@ -14,13 +13,17 @@ public class Usuario  implements Serializable {
 
 	private String password;
 
+	private String passwordTmp;
+
 	private String nombre;
 
 	private String email;
-	
+
 	private String telefono;
 
 	private Boolean activo;
+
+	private Boolean recover;
 
 	private List<Rol> roles;
 
@@ -50,6 +53,14 @@ public class Usuario  implements Serializable {
 		this.password = password;
 	}
 
+	public String getPasswordTmp() {
+		return passwordTmp;
+	}
+
+	public void setPasswordTmp(String passwordTmp) {
+		this.passwordTmp = passwordTmp;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -66,7 +77,6 @@ public class Usuario  implements Serializable {
 		this.email = email;
 	}
 
-	
 	public String getTelefono() {
 		return telefono;
 	}
@@ -81,6 +91,14 @@ public class Usuario  implements Serializable {
 
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
+	}
+
+	public Boolean getRecover() {
+		return recover;
+	}
+
+	public void setRecover(Boolean recover) {
+		this.recover = recover;
 	}
 
 	public List<Rol> getRoles() {

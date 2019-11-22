@@ -7,20 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import mx.com.backend.admin.reclutamiento.dao.usuario.IUsuarioDao;
-import mx.com.backend.admin.reclutamiento.services.mail.impl.EnvioEmail;
-
+@EnableAsync
 @SpringBootApplication
 public class SpringBootBackendApirestApplication implements CommandLineRunner{
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private EnvioEmail envioEmail;
-	
-	@Autowired
-	private IUsuarioDao usuarioDao;
 	
 	
 	
@@ -37,13 +29,6 @@ public class SpringBootBackendApirestApplication implements CommandLineRunner{
 			System.out.println(passwordBcrypt);
 		}
 		
-		//envioEmail.envioEmail(new EnvioEmailBeans());
-//		
-//		Usuario unuevo = new Usuario();
-//		unuevo.setEmail("peuba");
-//		unuevo.setPassword("wedewdw");
-//		unuevo.setNombreUsuario("nombre443");
-//		Usuario u= usuarioDao.crearUsuario(unuevo);
 		
 	}
 }
