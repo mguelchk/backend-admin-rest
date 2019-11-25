@@ -1,4 +1,4 @@
-package mx.com.backend.admin.reclutamiento.dao.usuario;
+package mx.com.backend.admin.reclutamiento.dao.usuario.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import mx.com.backend.admin.reclutamiento.core.exception.DaoDataAccesException;
 import mx.com.backend.admin.reclutamiento.core.exception.SpErrorException;
 import mx.com.backend.admin.reclutamiento.dao.mapper.UsuarioMapper;
 import mx.com.backend.admin.reclutamiento.dao.sp.UsuarioSP;
+import mx.com.backend.admin.reclutamiento.dao.usuario.IUsuarioDao;
 import mx.com.backend.admin.reclutamiento.models.Usuario;
 
 @Service

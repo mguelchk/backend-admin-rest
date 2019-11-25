@@ -1,4 +1,4 @@
-package mx.com.backend.admin.reclutamiento.dao.menu;
+package mx.com.backend.admin.reclutamiento.dao.menu.impl;
 
 
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import mx.com.backend.admin.reclutamiento.core.exception.DaoDataAccesException;
+import mx.com.backend.admin.reclutamiento.dao.menu.IMenuDao;
 import mx.com.backend.admin.reclutamiento.models.Menu;
 import mx.com.backend.admin.reclutamiento.models.Rol;
 import mx.com.backend.admin.reclutamiento.services.login.UsuarioLoginService;

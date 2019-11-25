@@ -1,4 +1,4 @@
-package mx.com.backend.admin.reclutamiento.dao.rol;
+package mx.com.backend.admin.reclutamiento.dao.rol.impl;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import mx.com.backend.admin.reclutamiento.dao.rol.IRolDao;
 import mx.com.backend.admin.reclutamiento.models.Rol;
 import mx.com.backend.admin.reclutamiento.models.Usuario;
 
