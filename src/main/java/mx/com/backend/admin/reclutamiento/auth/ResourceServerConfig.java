@@ -21,16 +21,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/usuario","/api/recuperar","/api/actualizar",
-				"/api/vacantes","/api/clientes/page/**", "/api/uploads/img/**", "/images/**").permitAll()
-		/*.antMatchers(HttpMethod.GET, "/api/clientes/{id}").hasAnyRole("USER", "ADMIN")
-		.antMatchers(HttpMethod.POST, "/api/clientes/upload").hasAnyRole("USER", "ADMIN")
-		.antMatchers(HttpMethod.POST, "/api/clientes").hasRole("ADMIN")
-		.antMatchers("/api/clientes/**").hasRole("ADMIN")*/
-		.anyRequest().authenticated()
-		.and().cors().configurationSource(corsConfigurationSource());
+		http.authorizeRequests()
+				.antMatchers("/api/usuario", "/api/recuperar", "/api/estados","/api/areas/**", "/api/actualizar", "/api/vacantes",
+						"/api/clientes/page/**", "/api/uploads/img/**", "/images/**")
+				.permitAll()
+				/*
+				 * .antMatchers(HttpMethod.GET, "/api/clientes/{id}").hasAnyRole("USER",
+				 * "ADMIN") .antMatchers(HttpMethod.POST,
+				 * "/api/clientes/upload").hasAnyRole("USER", "ADMIN")
+				 * .antMatchers(HttpMethod.POST, "/api/clientes").hasRole("ADMIN")
+				 * .antMatchers("/api/clientes/**").hasRole("ADMIN")
+				 */
+				.anyRequest().authenticated().and().cors().configurationSource(corsConfigurationSource());
 	}
-	
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
@@ -38,18 +42,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		config.setAllowCredentials(true);
 		config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
-		
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
-	
+
 	@Bean
-	public FilterRegistrationBean<CorsFilter> corsFilter(){
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(corsConfigurationSource()));
+	public FilterRegistrationBean<CorsFilter> corsFilter() {
+		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(
+				new CorsFilter(corsConfigurationSource()));
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
 	}
 
-	
 }

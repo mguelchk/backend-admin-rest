@@ -2,53 +2,34 @@ package mx.com.backend.admin.reclutamiento.controllers;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.com.backend.admin.reclutamiento.core.exception.BussinesException;
 import mx.com.backend.admin.reclutamiento.core.response.CustomResponse;
-import mx.com.backend.admin.reclutamiento.models.Vacante;
-import mx.com.backend.admin.reclutamiento.services.vacante.IVacanteService;
+import mx.com.backend.admin.reclutamiento.models.Area;
+import mx.com.backend.admin.reclutamiento.services.area.IAreaService;
 
 @CrossOrigin(origins = { "http://localhost:4200", "*" })
 @RestController
 @RequestMapping("/api")
-public class VacantesController {
+public class AreaController {
 
 	@Autowired
-	private IVacanteService vacanteService;
+	private IAreaService areaService;
 
-	private final Logger log = LoggerFactory.getLogger(VacantesController.class);
+	@GetMapping("/areas/{nombre}")
+	public CustomResponse<List<Area>> obtenerEstados(@PathVariable String nombre) {
 
-	@PostMapping("/vacante")
-	public CustomResponse<Vacante> create(@RequestBody Vacante vacante) {
-
-		CustomResponse<Vacante> resp = new CustomResponse<>();
+		CustomResponse<List<Area>> resp = new CustomResponse<>();
 
 		try {
-			Vacante vacResp = vacanteService.crearVacante(vacante);
-			resp.success(vacResp, "vacante creado satisfactoriamente");
-		} catch (BussinesException e) {
-			resp.error(e.getMessage(), e);
-		}
-		return resp;
-	}
-
-	@PostMapping("/vacantes")
-	public CustomResponse<List<Vacante>> obtenerVacantes(@RequestBody Vacante vacante) {
-
-		CustomResponse<List<Vacante>> resp = new CustomResponse<>();
-
-		try {
-			List<Vacante> vacantes = vacanteService.obtenerVacantePorCriterios(vacante);
-			resp.success(vacantes, "vacante creado satisfactoriamente");
+			List<Area> vacantes = areaService.obtenerAreasPorNombre(nombre);
+			resp.success(vacantes, "se consulto los estados satisfactoriamente");
 		} catch (BussinesException e) {
 			resp.error(e.getMessage(), e);
 		}

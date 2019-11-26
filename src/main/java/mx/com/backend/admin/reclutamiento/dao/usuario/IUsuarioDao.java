@@ -13,6 +13,6 @@ public interface IUsuarioDao {
 
 	public Usuario actualizarRecoverUsuario(Usuario usuario) throws DaoDataAccesException;
 
-	public Usuario actualizarPassword(Usuario user)throws DaoDataAccesException;
+	public Usuario actualizarPassword(Usuario user) throws DaoDataAccesException;
 
 }

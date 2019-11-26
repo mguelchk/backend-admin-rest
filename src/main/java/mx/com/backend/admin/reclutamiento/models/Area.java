@@ -9,13 +9,13 @@ public class Area implements Serializable {
 	private Long idArea;
 	private String nombre;
 	private String descripcion;
-	private Integer activo;
+	private Boolean activo;
 
 	public Area() {
-		//contructor por default
+		// contructor por default
 	}
 
-	public Area(Long idArea, String nombre, String descripcion, Integer activo) {
+	public Area(Long idArea, String nombre, String descripcion, Boolean activo) {
 		this.idArea = idArea;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -46,11 +46,11 @@ public class Area implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Integer getActivo() {
+	public Boolean getActivo() {
 		return activo;
 	}
 
-	public void setActivo(Integer activo) {
+	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
 

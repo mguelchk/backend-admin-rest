@@ -37,7 +37,8 @@ public class UsuarioDao implements IUsuarioDao {
 			user = null;
 
 		} catch (Exception e) {
-			log.error("..:: ERROR CAPA DAO AL BUSCAR USUARIO POR NONMBRE ::.. [METODO: buscarUsuarioPorCorreo] " + e.getMessage(), e);
+			log.error("..:: ERROR CAPA DAO AL BUSCAR USUARIO POR NONMBRE ::.. [METODO: buscarUsuarioPorCorreo] "
+					+ e.getMessage(), e);
 			throw new DaoDataAccesException(e);
 		}
 		return user;
@@ -58,7 +59,9 @@ public class UsuarioDao implements IUsuarioDao {
 			user = null;
 
 		} catch (Exception e) {
-			log.error("..:: ERROR CAPA DAO AL BUSCAR USUARIO POR ID ::.. [METODO: buscarUsuarioPorId] " + e.getMessage(), e);
+			log.error(
+					"..:: ERROR CAPA DAO AL BUSCAR USUARIO POR ID ::.. [METODO: buscarUsuarioPorId] " + e.getMessage(),
+					e);
 			throw new DaoDataAccesException(e);
 		}
 		return user;
