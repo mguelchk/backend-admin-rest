@@ -23,12 +23,18 @@ public class VacanteMapper implements RowMapper<Vacante> {
 		vacante.setDescripcionBreve(rs.getString("descripcion_breve"));
 		
 		Area area = new Area();
+		area.setIdArea(rs.getLong("id_area"));
+		area.setNombre(rs.getString("nombre_area"));
 		vacante.setArea(area);
 		
 		Estado estado = new Estado();
+		estado.setIdEstado(rs.getLong("id_estado"));
+		estado.setNombre(rs.getString("nombre_estado"));
 		vacante.setEstado(estado);
 		
 		Cliente cliente = new Cliente();
+		cliente.setIdCliente(rs.getLong("id_cliente"));
+		cliente.setNombre(rs.getString("nombre_cliente"));
 		vacante.setCliente(cliente);
 		
 		vacante.setDescripcion(rs.getString("descripcion"));

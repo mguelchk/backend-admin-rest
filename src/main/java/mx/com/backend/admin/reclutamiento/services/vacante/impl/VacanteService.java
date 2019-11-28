@@ -68,7 +68,7 @@ public class VacanteService implements IVacanteService {
 
 		if (vacante.getArea().getIdArea() != null) {
 			
-			query.append(" AND id_area = ? ");
+			query.append(" AND V.id_area = ? ");
 			
 			valores.add(vacante.getArea().getIdArea());
 			
@@ -76,7 +76,7 @@ public class VacanteService implements IVacanteService {
 		
 		if (vacante.getEstado().getIdEstado() != null) {
 			
-			query.append(" AND id_estado = ? ");
+			query.append(" AND V.id_estado = ? ");
 			
 			valores.add(vacante.getEstado().getIdEstado());
 			

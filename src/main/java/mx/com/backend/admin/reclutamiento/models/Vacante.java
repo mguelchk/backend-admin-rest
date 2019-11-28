@@ -2,6 +2,7 @@ package mx.com.backend.admin.reclutamiento.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Vacante implements Serializable {
 
@@ -27,6 +28,7 @@ public class Vacante implements Serializable {
 	private String discapacidad;
 	private boolean publicada;
 	private boolean activo;
+	private List<String> listDescripcion;
 
 	public Long getIdVacante() {
 		return idVacante;
@@ -89,6 +91,7 @@ public class Vacante implements Serializable {
 	}
 
 	public void setDescripcion(String descripcion) {
+
 		this.descripcion = descripcion;
 	}
 
@@ -187,5 +190,14 @@ public class Vacante implements Serializable {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
+
+	public List<String> getListDescripcion() {
+		return listDescripcion;
+	}
+
+	public void setListDescripcion(List<String> listDescripcion) {
+		this.listDescripcion = listDescripcion;
+	}
+	
 
 }
