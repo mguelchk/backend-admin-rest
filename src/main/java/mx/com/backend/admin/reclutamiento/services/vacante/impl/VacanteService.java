@@ -23,12 +23,11 @@ public class VacanteService implements IVacanteService {
 	private IVacanteDao vacanteDao;
 
 	@Override
-	public Vacante obtenerVacantePorId(Vacante vacante) throws BussinesException {
+	public Vacante obtenerVacantePorId(Long idVacante) throws BussinesException {
 		try {
 
-			Vacante vacanteRes = vacanteDao.obtenerVacantePorId(vacante.getIdVacante());
-			return vacanteRes;
-
+			return vacanteDao.obtenerVacantePorId(idVacante);
+			
 		} catch (DaoDataAccesException e) {
 
 			log.error("..:: ERROR AL OBTENER VACANTE::.. [METODO: obtenerVacantePorId] " + e.getMessage(), e);
@@ -98,5 +97,7 @@ public class VacanteService implements IVacanteService {
 
 		}
 	}
+
+	
 
 }

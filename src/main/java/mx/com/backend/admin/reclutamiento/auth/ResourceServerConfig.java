@@ -22,7 +22,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/api/usuario", "/api/recuperar", "/api/estados","/api/areas/**", "/api/actualizar", "/api/vacantes",
+				.antMatchers("/api/usuario", "/api/recuperar", "/api/estados","/api/areas/**", "/api/actualizar", "/api/vacantes/**","/api/postulaciones/**",
 						"/api/clientes/page/**", "/api/uploads/img/**", "/images/**")
 				.permitAll()
 				/*

@@ -30,7 +30,11 @@ public class VacanteDao implements IVacanteDao {
 		Vacante vac;
 
 		try {
-			vac = jdbcTemplate.queryForObject("SELECT * FROM admin_360.VACANTES WHEREN id_vacante = ? AND activo = 1",
+			vac = jdbcTemplate.queryForObject("SELECT\n" + "V.*,\n" + "C.id_cliente, \n" + "C.nombre as nombre_cliente,\n"
+					+ "E.id_estado,\n" + "E.nombre as nombre_estado,\n" + "A.id_area,\n" + "A.nombre as nombre_area\n"
+					+ " FROM VACANTES V\n" + "INNER JOIN CLIENTES C ON V.id_cliente = C.id_cliente\n"
+					+ "INNER JOIN ESTADOS E ON V.id_estado = E.id_estado\n"
+					+ "INNER JOIN AREAS A ON V.id_area = A.id_area\n" + "WHERE V.id_vacante = ? AND  V.publicada = 1 AND V.activo = 1 ",
 					new Object[] { idVacante }, new VacanteMapper());
 		} catch (EmptyResultDataAccessException e) {
 
@@ -68,20 +72,12 @@ public class VacanteDao implements IVacanteDao {
 			throws DaoDataAccesException {
 		List<Vacante> vacantes;
 		try {
-			vacantes = jdbcTemplate.query("SELECT\n" + 
-					"V.*,\n" + 
-					"C.id_cliente, \n" + 
-					"C.nombre as nombre_cliente,\n" + 
-					"E.id_estado,\n" + 
-					"E.nombre as nombre_estado,\n" + 
-					"A.id_area,\n" + 
-					"A.nombre as nombre_area\n" + 
-					" FROM VACANTES V\n" + 
-					"INNER JOIN CLIENTES C ON V.id_cliente = C.id_cliente\n" + 
-					"INNER JOIN ESTADOS E ON V.id_estado = E.id_estado\n" + 
-					"INNER JOIN AREAS A ON V.id_area = A.id_area\n" + 
-					"WHERE V.publicada = 1 AND V.activo = 1 " + qryRestantes,
-					values, new VacanteMapper());
+			vacantes = jdbcTemplate.query("SELECT\n" + "V.*,\n" + "C.id_cliente, \n" + "C.nombre as nombre_cliente,\n"
+					+ "E.id_estado,\n" + "E.nombre as nombre_estado,\n" + "A.id_area,\n" + "A.nombre as nombre_area\n"
+					+ " FROM VACANTES V\n" + "INNER JOIN CLIENTES C ON V.id_cliente = C.id_cliente\n"
+					+ "INNER JOIN ESTADOS E ON V.id_estado = E.id_estado\n"
+					+ "INNER JOIN AREAS A ON V.id_area = A.id_area\n" + "WHERE V.publicada = 1 AND V.activo = 1 "
+					+ qryRestantes, values, new VacanteMapper());
 		} catch (EmptyResultDataAccessException e) {
 
 			log.info("..:: EXCEPTION CONTROLADA ::.. [NO SE ENCONTRO RESULTADOS EN LA CONSULTA]");

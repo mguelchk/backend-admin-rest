@@ -7,9 +7,10 @@ import mx.com.backend.admin.reclutamiento.models.Vacante;
 
 public interface IVacanteService {
 
-	public Vacante obtenerVacantePorId(Vacante vacante) throws BussinesException;
+	public Vacante obtenerVacantePorId(Long idVacante) throws BussinesException;
 	
 	public List<Vacante> obtenerVacantePorCriterios(Vacante vacante) throws BussinesException;
 	
 	public Vacante crearVacante(Vacante vacante) throws BussinesException;
+
 }
