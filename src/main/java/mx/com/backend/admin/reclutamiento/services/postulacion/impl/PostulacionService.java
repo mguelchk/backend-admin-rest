@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import mx.com.backend.admin.reclutamiento.core.exception.BussinesException;
 import mx.com.backend.admin.reclutamiento.core.exception.DaoDataAccesException;
 import mx.com.backend.admin.reclutamiento.dao.postulacion.IPostulacionDao;
+import mx.com.backend.admin.reclutamiento.dao.vacante.IVacanteDao;
 import mx.com.backend.admin.reclutamiento.models.Postulacion;
 import mx.com.backend.admin.reclutamiento.models.Vacante;
 import mx.com.backend.admin.reclutamiento.services.postulacion.IPostulacionService;
+import mx.com.backend.admin.reclutamiento.services.vacante.IVacanteService;
 import mx.com.backend.admin.reclutamiento.services.vacante.impl.VacanteService;
 
 @Service
@@ -23,12 +25,18 @@ public class PostulacionService implements IPostulacionService {
 
 	@Autowired
 	private IPostulacionDao postulacionDao;
+	@Autowired
+	private IVacanteDao vacanteDao;
 
 	@Override
 	public Postulacion crearPostulacioneDeUsuario(Postulacion postulacion) throws BussinesException {
 		try {
-
-			return postulacionDao.crearPostulacionPorUsuario(postulacion);
+			postulacionDao.crearPostulacionPorUsuario(postulacion);
+			Postulacion pos = new Postulacion();
+			Vacante vac = vacanteDao.obtenerVacantePorId(postulacion.getVacante().getIdVacante(),
+					postulacion.getUsuario().getIdUsuario());
+			pos.setVacante(vac);
+			return pos;
 
 		} catch (DaoDataAccesException e) {
 
@@ -50,7 +58,6 @@ public class PostulacionService implements IPostulacionService {
 				values = new Object[valores.size()];
 				values = valores.toArray(values);
 			}
-			
 
 			List<Postulacion> postulaciones = postulacionDao.obtenerPostulacionesPorCriterios(query.toString(), values);
 			return postulaciones;

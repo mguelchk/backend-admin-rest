@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.com.backend.admin.reclutamiento.core.exception.BussinesException;
@@ -25,7 +26,7 @@ public class VacanteController {
 	private IVacanteService vacanteService;
 
 	@PostMapping("/vacante")
-	public CustomResponse<Vacante> create(@RequestBody Vacante vacante) {
+	public CustomResponse<Vacante> crearVacante(@RequestBody Vacante vacante) {
 
 		CustomResponse<Vacante> resp = new CustomResponse<>();
 
@@ -52,13 +53,13 @@ public class VacanteController {
 		return resp;
 	}
 
-	@GetMapping("/vacantes/{idVacante}")
-	public CustomResponse<Vacante> obtenerVacantes(@PathVariable Long idVacante) {
+	@GetMapping("/vacantes")
+	public CustomResponse<Vacante> obtenerVacantes(@RequestParam Long idVacante,@RequestParam Long idUsuario) {
 
 		CustomResponse<Vacante> resp = new CustomResponse<>();
 
 		try {
-			Vacante vacante = vacanteService.obtenerVacantePorId(idVacante);
+			Vacante vacante = vacanteService.obtenerVacantePorId(idVacante,idUsuario);
 			resp.success(vacante, "se obtuvo vacante satisfactoriamente");
 		} catch (BussinesException e) {
 			resp.error(e.getMessage(), e);
@@ -66,18 +67,6 @@ public class VacanteController {
 		return resp;
 	}
 
-	@GetMapping("/postulaciones/{idVacante}/{idUsuario}")
-	public CustomResponse<Vacante> obtenerPostulaciones(@PathVariable Long idVacante) {
-
-		CustomResponse<Vacante> resp = new CustomResponse<>();
-
-		try {
-			Vacante vacante = vacanteService.obtenerVacantePorId(idVacante);
-			resp.success(vacante, "Vacante creada satisfactoriamente");
-		} catch (BussinesException e) {
-			resp.error(e.getMessage(), e);
-		}
-		return resp;
-	}
+	
 
 }

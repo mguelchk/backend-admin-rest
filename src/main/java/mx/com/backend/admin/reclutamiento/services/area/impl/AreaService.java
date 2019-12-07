@@ -36,4 +36,46 @@ public class AreaService implements IAreaService {
 		}
 	}
 
+	@Override
+	public List<Area> obtenerAreas() throws BussinesException {
+		try {
+
+			return areaDao.obtenerAreas();
+
+		} catch (DaoDataAccesException e) {
+
+			log.error("..:: ERROR AL OBTENER VACANTE::.. [METODO: obtenerAreas] " + e.getMessage(), e);
+			throw new BussinesException(e);
+
+		}
+	}
+
+	@Override
+	public Area crearActualizarArea(Area area) throws BussinesException {
+		try {
+
+			return areaDao.crearActualizarArea(area);
+
+		} catch (DaoDataAccesException e) {
+
+			log.error("..:: ERROR AL OBTENER VACANTE::.. [METODO: crearActualizarArea] " + e.getMessage(), e);
+			throw new BussinesException(e);
+
+		}
+	}
+
+	@Override
+	public Boolean deleteArea(Integer idArea) throws BussinesException {
+		try {
+
+			return areaDao.deleteArea(idArea);
+
+		} catch (DaoDataAccesException e) {
+
+			log.error("..:: ERROR AL OBTENER VACANTE::.. [METODO: crearActualizarArea] " + e.getMessage(), e);
+			throw new BussinesException(e);
+
+		}
+	}
+
 }

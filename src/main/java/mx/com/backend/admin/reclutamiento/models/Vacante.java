@@ -29,6 +29,7 @@ public class Vacante implements Serializable {
 	private boolean publicada;
 	private boolean activo;
 	private List<String> listDescripcion;
+	private boolean vacantePostulada;
 
 	public Long getIdVacante() {
 		return idVacante;
@@ -198,6 +199,13 @@ public class Vacante implements Serializable {
 	public void setListDescripcion(List<String> listDescripcion) {
 		this.listDescripcion = listDescripcion;
 	}
-	
+
+	public boolean isVacantePostulada() {
+		return vacantePostulada;
+	}
+
+	public void setVacantePostulada(boolean vacantePostulada) {
+		this.vacantePostulada = vacantePostulada;
+	}
 
 }

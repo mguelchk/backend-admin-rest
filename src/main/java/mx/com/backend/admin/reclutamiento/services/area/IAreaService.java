@@ -8,4 +8,10 @@ import mx.com.backend.admin.reclutamiento.models.Area;
 public interface IAreaService {
 
 	public List<Area> obtenerAreasPorNombre(String nombre) throws BussinesException;
+
+	public List<Area> obtenerAreas() throws BussinesException;
+
+	public Area crearActualizarArea(Area area) throws BussinesException;
+
+	public Boolean deleteArea(Integer idArea) throws BussinesException;
 }

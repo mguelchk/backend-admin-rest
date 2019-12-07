@@ -23,11 +23,11 @@ public class VacanteService implements IVacanteService {
 	private IVacanteDao vacanteDao;
 
 	@Override
-	public Vacante obtenerVacantePorId(Long idVacante) throws BussinesException {
+	public Vacante obtenerVacantePorId(Long idVacante, Long idUsuario) throws BussinesException {
 		try {
 
-			return vacanteDao.obtenerVacantePorId(idVacante);
-			
+			return vacanteDao.obtenerVacantePorId(idVacante, idUsuario);
+
 		} catch (DaoDataAccesException e) {
 
 			log.error("..:: ERROR AL OBTENER VACANTE::.. [METODO: obtenerVacantePorId] " + e.getMessage(), e);
@@ -41,13 +41,12 @@ public class VacanteService implements IVacanteService {
 		try {
 
 			StringBuilder query = new StringBuilder();
-			List<Object> valores  =  new ArrayList<Object>();
-			
-			
+			List<Object> valores = new ArrayList<Object>();
+
 			this.crearValues(vacante, query, valores);
 			Object[] values = new Object[valores.size()];
 			values = valores.toArray(values);
-			
+
 			List<Vacante> vacantes = vacanteDao.obtenerVacantesPorCriterios(query.toString(), values);
 			return vacantes;
 
@@ -60,25 +59,25 @@ public class VacanteService implements IVacanteService {
 	}
 
 	private void crearValues(Vacante vacante, StringBuilder query, List<Object> valores) throws BussinesException {
-		
+
 		if (vacante == null) {
 			throw new BussinesException("el objeto no puede estar vacio");
 		}
 
 		if (vacante.getArea().getIdArea() != null) {
-			
+
 			query.append(" AND V.id_area = ? ");
-			
+
 			valores.add(vacante.getArea().getIdArea());
-			
+
 		}
-		
+
 		if (vacante.getEstado().getIdEstado() != null) {
-			
+
 			query.append(" AND V.id_estado = ? ");
-			
+
 			valores.add(vacante.getEstado().getIdEstado());
-			
+
 		}
 	}
 
@@ -97,7 +96,5 @@ public class VacanteService implements IVacanteService {
 
 		}
 	}
-
-	
 
 }

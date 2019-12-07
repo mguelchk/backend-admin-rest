@@ -49,6 +49,7 @@ public class VacanteMapper implements RowMapper<Vacante> {
 		vacante.setTipoLicencia(rs.getString("tipo_licencia"));
 		vacante.setDiscapacidad(rs.getString("discapacidad"));
 		vacante.setPublicada(rs.getBoolean("publicada"));
+		vacante.setVacantePostulada(rs.getBoolean("vacante_postulada"));
 		
 
 		return vacante;

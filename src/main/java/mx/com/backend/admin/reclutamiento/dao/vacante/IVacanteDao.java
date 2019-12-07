@@ -7,7 +7,7 @@ import mx.com.backend.admin.reclutamiento.models.Vacante;
 
 public interface IVacanteDao {
 
-	public Vacante obtenerVacantePorId(Long idVacante) throws DaoDataAccesException;
+	public Vacante obtenerVacantePorId(Long idVacante, Long idUsuario) throws DaoDataAccesException;
 
 	public List<Vacante> obtenerVacantesPorCriterios(String qryRestantes, Object[] values) throws DaoDataAccesException;
 

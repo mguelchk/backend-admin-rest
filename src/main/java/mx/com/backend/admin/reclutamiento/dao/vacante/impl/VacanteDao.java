@@ -25,17 +25,20 @@ public class VacanteDao implements IVacanteDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public Vacante obtenerVacantePorId(Long idVacante) throws DaoDataAccesException {
+	public Vacante obtenerVacantePorId(Long idVacante, Long idUsuario) throws DaoDataAccesException {
 
 		Vacante vac;
 
 		try {
-			vac = jdbcTemplate.queryForObject("SELECT\n" + "V.*,\n" + "C.id_cliente, \n" + "C.nombre as nombre_cliente,\n"
-					+ "E.id_estado,\n" + "E.nombre as nombre_estado,\n" + "A.id_area,\n" + "A.nombre as nombre_area\n"
-					+ " FROM VACANTES V\n" + "INNER JOIN CLIENTES C ON V.id_cliente = C.id_cliente\n"
-					+ "INNER JOIN ESTADOS E ON V.id_estado = E.id_estado\n"
-					+ "INNER JOIN AREAS A ON V.id_area = A.id_area\n" + "WHERE V.id_vacante = ? AND  V.publicada = 1 AND V.activo = 1 ",
-					new Object[] { idVacante }, new VacanteMapper());
+			vac = jdbcTemplate.queryForObject(
+					"SELECT V.*,VU.id_vacante as vacante_postulada, C.id_cliente,  C.nombre as nombre_cliente,\n" + 
+					"					E.id_estado, E.nombre as nombre_estado, A.id_area, A.nombre as nombre_area\n" + 
+					"					 FROM VACANTES V INNER JOIN CLIENTES C ON V.id_cliente = C.id_cliente\n" + 
+					"					INNER JOIN ESTADOS E ON V.id_estado = E.id_estado\n" + 
+					"					INNER JOIN AREAS A ON V.id_area = A.id_area \n" + 
+					"                    LEFT JOIN VACANTES_USUARIOS VU  on (VU.id_vacante = V.id_vacante and VU.id_usuario = ?)\n" + 
+					"                    WHERE V.id_vacante = ? AND  V.publicada = 1 AND V.activo = 1 ",
+					new Object[] { idUsuario, idVacante }, new VacanteMapper());
 		} catch (EmptyResultDataAccessException e) {
 
 			log.info("..:: EXCEPTION CONTROLADA ::.. [NO SE ENCONTRO RESULTADOS EN LA CONSULTA]");
@@ -55,7 +58,7 @@ public class VacanteDao implements IVacanteDao {
 
 			VacanteSP sp = new VacanteSP(jdbcTemplate, "crearVacante");
 
-			Vacante vac = obtenerVacantePorId(sp.crearVacante(vacante).longValue());
+			Vacante vac = obtenerVacantePorId(sp.crearVacante(vacante).longValue(), null);
 
 			return vac;
 
@@ -72,7 +75,7 @@ public class VacanteDao implements IVacanteDao {
 			throws DaoDataAccesException {
 		List<Vacante> vacantes;
 		try {
-			vacantes = jdbcTemplate.query("SELECT\n" + "V.*,\n" + "C.id_cliente, \n" + "C.nombre as nombre_cliente,\n"
+			vacantes = jdbcTemplate.query("SELECT\n" + "V.*, '' as vacante_postulada, \n" + "C.id_cliente, \n" + "C.nombre as nombre_cliente,\n"
 					+ "E.id_estado,\n" + "E.nombre as nombre_estado,\n" + "A.id_area,\n" + "A.nombre as nombre_area\n"
 					+ " FROM VACANTES V\n" + "INNER JOIN CLIENTES C ON V.id_cliente = C.id_cliente\n"
 					+ "INNER JOIN ESTADOS E ON V.id_estado = E.id_estado\n"
