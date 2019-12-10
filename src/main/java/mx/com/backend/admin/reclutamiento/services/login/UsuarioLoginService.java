@@ -82,10 +82,17 @@ public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsSer
 
 	private List<Rol> obtenerRolesPorUsuario(Usuario usuario) throws DaoDataAccesException {
 		List<Rol> roles = rolDao.obtenerRolesPorUsuario(usuario);
-		for (Rol rol : roles) {
-			rol.setMenus(obtenerMenusPorRol(rol));
-		}
+
+		roles.forEach(rol -> {
+			try {
+				rol.setMenus(obtenerMenusPorRol(rol));
+			} catch (DaoDataAccesException e) {
+				logger.info("Error al consummir lambda ..::[obtenerRolesPorUsuario]::..");
+			}
+
+		});
 		return roles;
+
 	}
 
 	private List<Menu> obtenerMenusPorRol(Rol rol) throws DaoDataAccesException {
@@ -95,35 +102,32 @@ public class UsuarioLoginService implements IUsuarioLoginService, UserDetailsSer
 		List<Menu> menusPadre = new ArrayList<>();
 		List<Menu> menusHijo = new ArrayList<>();
 
-		for (Menu menu : menus) {
+		menus.forEach(menu -> {
 			if (menu.getIdMenuPadre() == null) {
 				menusPadre.add(menu);
 			} else {
 				menusHijo.add(menu);
 			}
-		}
+		});
 		return menus(menusPadre, menusHijo);
 	}
 
 	private List<Menu> menus(List<Menu> menusPadre, List<Menu> menusHijo) {
 
-		for (Menu menuPadre : menusPadre) {
+		menusPadre.forEach(menuPadre -> menuPadre.setSubMenus(obtenerMenusHijos(menusHijo, menuPadre.getIdMenu())));
 
-			menuPadre.setSubMenus(obtenerMenusHijos(menusHijo, menuPadre.getIdMenu()));
-
-		}
 		return menusPadre;
 	}
 
 	private List<Menu> obtenerMenusHijos(List<Menu> menusHijo, Long idMenuPadre) {
 		List<Menu> listArbolMenu = new ArrayList<>();
 		if (menusHijo != null) {
-			for (Menu menu : menusHijo) {
+			menusHijo.forEach(menu -> {
 				if (menu.getIdMenuPadre().equals(idMenuPadre)) {
 					listArbolMenu.add(menu);
 					menu.setSubMenus(obtenerMenusHijos(menusHijo, menu.getIdMenu()));
 				}
-			}
+			});
 		}
 		return listArbolMenu;
 	}
