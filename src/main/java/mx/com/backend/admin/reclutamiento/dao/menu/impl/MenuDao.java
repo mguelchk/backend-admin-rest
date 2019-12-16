@@ -37,7 +37,7 @@ public class MenuDao implements IMenuDao {
 					"    M.icono,\n" + 
 					"    M.clase,\n" + 
 					"    M.activo,\n" + 
-					"    m.id_menu_padre\n" + 
+					"    M.id_menu_padre\n" + 
 					"FROM admin_360.MENUS_ROLES MR \n" + 
 					"INNER JOIN admin_360.MENUS M\n" + 
 					"ON MR.id_menu = M.id_menu WHERE MR.id_rol = ? AND M.activo = 1 ;\n" + 
